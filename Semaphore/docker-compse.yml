@@ -17,6 +17,7 @@ services:
     image: semaphoreui/semaphore:latest
     volumes:
       - ./playbooks:/playbooks:rw
+      - ./opentofu:/opentofu:rw
     environment:
       SEMAPHORE_DB_USER: semaphore
       SEMAPHORE_DB_PASS: semaphore
@@ -44,3 +45,4 @@ services:
 volumes:
   semaphore-postgres:
   playbooks:
+  opentofu:
