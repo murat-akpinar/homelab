@@ -41,7 +41,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm_1" {
         user_account {
             username = "ubuntu" # Username
             password = "ubuntu" # Password
-            keys = [ "ssh-public-key" ] # SSH key
+            keys = [ "ssh-key" ] # SSH key
         }
     }
 
@@ -87,7 +87,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm_2" {
         user_account {
             username = "ubuntu" # Username
             password = "ubuntu" # Password
-            keys = [ "ssh-rsa" ] # SSH key
+            keys = [ "ssh-key" ] # SSH key
         }
     }
 
