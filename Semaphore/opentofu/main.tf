@@ -111,7 +111,7 @@ resource "proxmox_virtual_environment_file" "ubuntu_cloud_image" {
     datastore_id = "local"
     node_name = "HomeLab" # Proxmox HomeLab name
     source_file {        
-        path = "iso/jammy-server-cloudimg-amd64-disk-kvm.img"
+        path = "iso/jammy-server-cloudimg-amd64.img"
         # https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
     }
 }
