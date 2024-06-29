@@ -80,7 +80,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm_2" {
     initialization {
         ip_config {
             ipv4 {
-                address = "192.168.1.12/24"
+                address = "192.168.1.13/24"
                 gateway = "192.168.1.1"
             }
         }       
