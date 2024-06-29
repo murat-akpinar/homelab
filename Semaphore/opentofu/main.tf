@@ -18,7 +18,8 @@ provider "proxmox" {
 resource "proxmox_virtual_environment_vm" "ubuntu_vm_1" {
     name = "ubuntu-vm-1" # Hostname 
     node_name = "HomeLab" # Proxmox HomeLab name
-    vm_id = 250 # VM ID
+ #   vm_id = 250 # VM ID
+    keyboard_layout = "tr"
 
     cpu {
         cores = 2
@@ -64,7 +65,8 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm_1" {
 resource "proxmox_virtual_environment_vm" "ubuntu_vm_2" {
     name = "ubuntu-vm-2" # Hostname 
     node_name = "HomeLab" # Proxmox HomeLab name
-    vm_id = 260
+#   vm_id = 260
+    keyboard_layout = "tr"
 
     cpu {
         cores = 2
