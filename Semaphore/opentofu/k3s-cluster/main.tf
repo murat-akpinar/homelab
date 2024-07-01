@@ -25,7 +25,7 @@ resource "proxmox_virtual_environment_file" "ubuntu_cloud_image" {
 }
 
 # master-1
-resource "proxmox_virtual_environment_vm" "ubuntu_vm_1" {
+resource "proxmox_virtual_environment_vm_1" "ubuntu_vm_1" {
     name = "master-1" # Hostname 
     node_name = "HomeLab" # Proxmox HomeLab name
  #   vm_id = 250 # VM ID
@@ -72,7 +72,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm_1" {
 # master-1
 
 # master-2
-resource "proxmox_virtual_environment_vm" "ubuntu_vm_2" {
+resource "proxmox_virtual_environment_vm_2" "ubuntu_vm_2" {
     name = "master-2" # Hostname 
     node_name = "HomeLab" # Proxmox HomeLab name
 #   vm_id = 260
@@ -119,7 +119,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm_2" {
 # master-2
 
 # master-3
-resource "proxmox_virtual_environment_vm" "ubuntu_vm_3" {
+resource "proxmox_virtual_environment_vm_3" "ubuntu_vm_3" {
     name = "master-3" # Hostname 
     node_name = "HomeLab" # Proxmox HomeLab name
 #   vm_id = 260
