@@ -11,5 +11,7 @@ Homelab Stuff
   vars:
     zabbix_server_ip: "192.168.1.11"
 ```
+
+#  Homelab Topology
 ![topology](img/topology.png)
  
