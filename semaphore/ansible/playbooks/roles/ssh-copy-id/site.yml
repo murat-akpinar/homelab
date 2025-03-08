@@ -1,6 +1,6 @@
 ---
 - name: Deploy SSH key and config to servers
-  hosts: homelab
+  hosts: all
   tasks:
     - name: Gather user info
       command: "getent passwd {{ ansible_user }}"

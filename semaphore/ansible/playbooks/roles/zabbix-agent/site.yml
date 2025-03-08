@@ -1,0 +1,68 @@
+---
+- name: Check and Install Zabbix Agent 2
+  hosts: all
+  become: true
+  vars:
+    zabbix_server_ip: "192.168.1.11"
+
+  tasks:
+    - name: Check if Zabbix Agent 2 is installed
+      shell: "dpkg-query -W -f='${Status}' zabbix-agent2 2>/dev/null | grep -q 'install ok installed'"
+      register: zabbix_check
+      changed_when: false
+      failed_when: false  # Hata almasını önlemek için
+
+    - name: Print message if Zabbix is already installed
+      debug:
+        msg: "Zabbix Agent 2 is already installed."
+      when: zabbix_check.rc == 0
+
+    - name: Install Zabbix Agent 2 if not installed
+      block:
+        - name: Download Zabbix repository package
+          get_url:
+            url: "https://repo.zabbix.com/zabbix/7.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_latest_7.0+ubuntu22.04_all.deb"
+            dest: "/tmp/zabbix-release_latest.deb"
+
+        - name: Install Zabbix repository package
+          apt:
+            deb: "/tmp/zabbix-release_latest.deb"
+
+        - name: Update APT package cache
+          apt:
+            update_cache: yes
+
+        - name: Install Zabbix Agent 2 and plugins
+          apt:
+            name:
+              - zabbix-agent2
+              - zabbix-agent2-plugin-mongodb
+              - zabbix-agent2-plugin-mssql
+              - zabbix-agent2-plugin-postgresql
+            state: present
+
+        - name: Get Hostname
+          command: "hostname"
+          register: server_hostname
+          changed_when: false
+
+        - name: Update Zabbix Agent configuration
+          lineinfile:
+            path: /etc/zabbix/zabbix_agent2.conf
+            regexp: "{{ item.regexp }}"
+            line: "{{ item.line }}"
+          loop:
+            - { regexp: '^Server=', line: "Server={{ zabbix_server_ip }}" }
+            - { regexp: '^ServerActive=', line: "ServerActive={{ zabbix_server_ip }}" }
+            - { regexp: '^Hostname=', line: "Hostname={{ server_hostname.stdout }}" }
+          notify: Restart Zabbix Agent
+
+      when: zabbix_check.rc != 0
+
+  handlers:
+    - name: Restart Zabbix Agent
+      systemd:
+        name: zabbix-agent2
+        state: restarted
+        enabled: yes
+
