@@ -15,3 +15,6 @@ Homelab Stuff
 #  Homelab Topology
 ![topology](img/topology.png)
  
+#  Homelab Topology
+![topology](img/vlan.png)
+ 
