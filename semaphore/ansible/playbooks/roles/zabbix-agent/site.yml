@@ -3,7 +3,7 @@
   hosts: all
   become: true
   vars:
-    zabbix_server_ip: "192.168.1.11"
+    zabbix_server_ip: "192.168.2.11"
 
   tasks:
     - name: Check if Zabbix Agent 2 is installed
@@ -57,6 +57,21 @@
             - { regexp: '^Hostname=', line: "Hostname={{ server_hostname.stdout }}" }
           notify: Restart Zabbix Agent
 
+        - name: Enable HostnameItem in Zabbix Agent configuration
+          replace:
+            path: /etc/zabbix/zabbix_agent2.conf
+            regexp: '^#\s*(HostnameItem=system.hostname)'
+            replace: '\1'
+          notify: Restart Zabbix Agent
+
+        - name: Ensure HostnameItem is set if not present
+          lineinfile:
+            path: /etc/zabbix/zabbix_agent2.conf
+            line: "HostnameItem=system.hostname"
+            insertafter: EOF
+            state: present
+          notify: Restart Zabbix Agent
+
       when: zabbix_check.rc != 0
 
   handlers:
@@ -65,4 +80,3 @@
         name: zabbix-agent2
         state: restarted
         enabled: yes
-
