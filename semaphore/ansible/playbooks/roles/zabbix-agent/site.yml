@@ -60,14 +60,29 @@
         - name: Enable HostnameItem in Zabbix Agent configuration
           replace:
             path: /etc/zabbix/zabbix_agent2.conf
-            regexp: '^#\s*(HostnameItem=system.hostname)'
-            replace: '\1'
+            regexp: '^#\s*HostnameItem='
+            replace: 'HostnameItem=system.hostname'
           notify: Restart Zabbix Agent
 
         - name: Ensure HostnameItem is set if not present
           lineinfile:
             path: /etc/zabbix/zabbix_agent2.conf
             line: "HostnameItem=system.hostname"
+            insertafter: EOF
+            state: present
+          notify: Restart Zabbix Agent
+
+        - name: Enable HostMetadataItem in Zabbix Agent configuration
+          replace:
+            path: /etc/zabbix/zabbix_agent2.conf
+            regexp: '^#\s*HostMetadataItem='
+            replace: 'HostMetadataItem=1'
+          notify: Restart Zabbix Agent
+
+        - name: Ensure HostMetadataItem is set if not present
+          lineinfile:
+            path: /etc/zabbix/zabbix_agent2.conf
+            line: "HostMetadataItem=1"
             insertafter: EOF
             state: present
           notify: Restart Zabbix Agent
