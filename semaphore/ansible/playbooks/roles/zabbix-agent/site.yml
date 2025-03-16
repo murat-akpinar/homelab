@@ -63,14 +63,6 @@
             replace: 'HostnameItem=system.hostname'
           notify: Restart Zabbix Agent
 
-        - name: Ensure HostnameItem is set if not present
-          lineinfile:
-            path: /etc/zabbix/zabbix_agent2.conf
-            line: "HostnameItem=system.hostname"
-            insertafter: EOF
-            state: present
-          notify: Restart Zabbix Agent
-
         - name: Enable HostMetadataItem in Zabbix Agent configuration
           replace:
             path: /etc/zabbix/zabbix_agent2.conf
