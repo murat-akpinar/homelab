@@ -10,7 +10,7 @@
       shell: "dpkg-query -W -f='${Status}' zabbix-agent2 2>/dev/null | grep -q 'install ok installed'"
       register: zabbix_check
       changed_when: false
-      failed_when: false  # Hata almasını önlemek için
+      failed_when: false
 
     - name: Print message if Zabbix is already installed
       debug:
@@ -54,20 +54,7 @@
           loop:
             - { regexp: '^Server=', line: "Server={{ zabbix_server_ip }}" }
             - { regexp: '^ServerActive=', line: "ServerActive={{ zabbix_server_ip }}" }
-          notify: Restart Zabbix Agent
-
-        - name: Enable HostnameItem in Zabbix Agent configuration
-          replace:
-            path: /etc/zabbix/zabbix_agent2.conf
-            regexp: '^#\s*HostnameItem='
-            replace: 'HostnameItem=system.hostname'
-          notify: Restart Zabbix Agent
-
-        - name: Enable HostMetadataItem in Zabbix Agent configuration
-          replace:
-            path: /etc/zabbix/zabbix_agent2.conf
-            regexp: '^#\s*HostMetadataItem='
-            replace: 'HostMetadataItem=1'
+            - { regexp: '^Hostname=', line: "Hostname={{ server_hostname.stdout }}" }
           notify: Restart Zabbix Agent
 
         - name: Ensure HostMetadataItem is set if not present
