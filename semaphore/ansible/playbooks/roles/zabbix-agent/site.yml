@@ -60,7 +60,7 @@
         - name: Ensure HostMetadataItem is set if not present
           lineinfile:
             path: /etc/zabbix/zabbix_agent2.conf
-            line: "HostMetadataItem=1"
+            line: "HostMetadata=Linux"
             insertafter: EOF
             state: present
           notify: Restart Zabbix Agent
